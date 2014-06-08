@@ -83,6 +83,9 @@
 			}
 
 			user.create(userData, function(err, uid) {
+				if (req.headers['client-version']) {
+				    return res.json(403, err.message);
+				}
 				if (err || !uid) {
 					return res.redirect(nconf.get('relative_path') + '/register');
 				}
@@ -93,6 +96,10 @@
 					user.logIP(uid, req.ip);
 
 					require('../socket.io').emitUserCount();
+					
+					if (req.headers['client-version']) {
+					    return res.json(200, 'authentication-successful');
+					}
 
 					if(req.body.referrer) {
 						res.redirect(req.body.referrer);
