@@ -83,10 +83,10 @@
 			}
 
 			user.create(userData, function(err, uid) {
-				if (req.headers['client-version']) {
-				    return res.json(403, err.message);
-				}
-				if (err || !uid) {
+				if (err || !uid) {					
+					if (req.headers['client-version']) {
+					    return res.json(403, err.message);
+					}
 					return res.redirect(nconf.get('relative_path') + '/register');
 				}
 
