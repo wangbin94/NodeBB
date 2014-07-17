@@ -233,7 +233,7 @@ Sockets.getUserSockets = function(uid) {
 Sockets.reqFromSocket = function(socket) {
 	var headers = socket.handshake.headers,
 		host = headers.host,
-		referer = headers.referer;
+		referer = headers.referer || '';
 
 	return {
 		ip: headers['x-forwarded-for'] || (socket.handshake.address || {}).address,
